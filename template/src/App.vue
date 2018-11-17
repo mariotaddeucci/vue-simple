@@ -1,65 +1,72 @@
-<template>
-  <div id="app">
-    <img src="http://vuejs.org/images/logo.png">
-    <h1>\{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://gitter.im/vuejs/vue" target="_blank">Gitter Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vueify" target="_blank">vueify</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
-    </ul>
-  </div>
-</template>
+<template >
+  <v-app id="app" v-if="is_login">
+    <v-navigation-drawer fixed app  :clipped="$vuetify.breakpoint.lgAndUp">
+      <v-list dense>
+      </v-list>
+    </v-navigation-drawer>
+    <v-toolbar color="blue darken-3" dark app fixed  :clipped-left="$vuetify.breakpoint.lgAndUp" >
+      <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
+        <v-toolbar-side-icon></v-toolbar-side-icon>
+        <span class="hidden-sm-and-down">Escritório de Carreiras</span> 
+      </v-toolbar-title>
+      <v-text-field flat solo-inverted prepend-icon="search" label="Search" class="hidden-sm-and-down" ></v-text-field>
+      <v-spacer></v-spacer>
+      <v-btn icon>
+        <v-icon>apps</v-icon>
+      </v-btn>
+      <v-btn icon>
+        <v-icon>notifications</v-icon>
+      </v-btn>
+      <v-btn icon large>
+        <v-avatar size="32px" tile> <img src="https://vuetifyjs.com/static/doc-images/logo.svg" alt="Vuetify" > </v-avatar>
+      </v-btn>
+    </v-toolbar>
+<!---
+    <v-speed-dial fixed bottom right open-on-hover  v-model="fab">
+      <v-btn fab slot="activator" hover color="pink" v-model="fab" dark>
+        <v-icon>add</v-icon>
+        <v-icon>close</v-icon>
+      </v-btn>
+      <v-btn fab dark slot="activator" color="green" >
+        <v-icon>help_outline</v-icon>
+      </v-btn>
+      <span>Cadastrar Notícia</span>
+    </v-tooltip>
+    <v-tooltip left>
+      <v-btn fab slot="activator" small color="cyan">
+        <v-icon>help_outline</v-icon>
+      </v-btn>
+      <span>Cadastrar Questões</span>
+    </v-tooltip>
+  </v-speed-dial>
 
+-->
+<v-content>
+  <v-container>
+    <router-view></router-view>
+  </v-container>
+</v-content>
+
+</v-app>
+<v-app id="app" v-else>
+  <login-page></login-page>
+</v-app>
+</template>
 <script>
-export default {
-  name: 'app',
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App'
+  import LoginPage from './router/Login.vue';
+  export default {
+    components: {
+      'login-page':LoginPage
+    },
+    computed:{
+      is_login(){
+        return Boolean(this.$cookies.token);
+      }
+    },
+    data(){
+      return {
+        fab:null
+      }
     }
   }
-}
 </script>
-
-<style scoped>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-
-img {
-  width: 200px;
-  height: 200px;
-}
-
-h1, h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
-</style>
